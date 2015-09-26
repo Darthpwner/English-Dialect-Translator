@@ -53,6 +53,7 @@ int main(int argc, const char * argv[]) {
 //012 -> 0123
 
 string translateTextToNewYorkerDialect(string text) {
+    bool first = true;
     for(int i = 1; i < text.length(); i++) {
         if(text[i] == 'r' && checkPreviousCharacterIsVowel(i, text)) {
             text[i] = 'h';
@@ -60,15 +61,20 @@ string translateTextToNewYorkerDialect(string text) {
             text[i] = 'u';
         } else if(text[i] == 't' && text[i - 1] != 'i') {
             text[i] = 'd';
-        } /*else if(text[i] == 'a') {
-//            text.resize(text.length() + 1);
-//            for(int j = i; j < text.length() + 1; j++) {
-//                text[j + 1] = text[j];  //Move everything forward one
-//            }
-//            
-//            text[i + 1] = 'w';
-//            continue;
-//        }*/
+        } else if(text[i] == 'a') {
+            text.resize(text.length() + 1);
+            for(int j = i + 1; j < text.length() + 1; j++) {
+                char store = text[j];
+                if(first) {
+                    text[j] = text[i];
+                    first = false;
+                } else {
+                    text[j + 1] = store;
+                }
+                
+                text[i + 1] = 'w';
+            }
+        }
     }
     string translation = text;
     return translation;
